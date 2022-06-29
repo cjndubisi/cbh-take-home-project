@@ -22,17 +22,33 @@ Feature: As a Facility Manager, I would like to add a custom ID to every agent
     Scenario: Allow Facility Manager to add custom ids to a selected agent
         Given Agent exist in the database
         When Facility Manager selects a given agent to edit by tapping the edit button
-        Then the website prompts the user with a dialog box containing all the agent's fields
-        And the user is displayed (listed among) with a text field with a place holder 'Custon ID'
+        And the website prompts the user with a dialog box containing all the agent's fields
+        Then the user is displayed (listed among) with a text field with a place holder 'Custom ID'
 
-
-    Scenario: Facility Manager cannot modify custom ID once set
+    Scenario: Verify Facility Manager is warned when setting a custom ID
         Given Facility Manager has executed 'Allow Facilities to add custom ids to a selected agent'
-        When Facility Manager selects a given agent to edit by tapping the edit button
-        Then the website disables the textfield containing the previously filled custom ID 
+        When Facility Manager taps the update button
+        Then the website tells the user "Custom ID cannot be modified once set'
+
+    Scenario: Verify Facility Manager cannot modify custom ID once set
+        Given Facility Manager has executed 'Allow Facilities to add custom ids to a selected agent'
+        And custom ID contains a value (has been previously set)
+        Then the website disables the textfield containing the previously filled custom ID
 
     Scenario: As a Facility Manager, I would like to generate a report by only agent's custom ID
         Given User has executed the scenario " As a Facility Manager I would like to add a custom ID to every agent
         When User hits report on the dashboard
-        Then the App generates a PDF report containing only agent's custom ID
+        Then the website generates a PDF report containing only agent's custom ID
+
+Estimate Metrics
+- 2 - Quick: an hour or less
+- 4 - Ok: a few hours
+- 6 - Moderate: a day
+- 8 - Difficult: more than a day
+
+Estimates
+    Ok(4): Allow Facility Manager to add custom ids to a selected agent
+    Quick(2): Verify Facility Manager cannot modify custom ID once set
+    Quick(2): Verify Facility Manager cannot modify custom ID once set
+    Ok(4): As a Facility Manager, I would like to generate a report by only agent's custom ID
 
