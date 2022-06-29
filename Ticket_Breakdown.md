@@ -40,15 +40,27 @@ Feature: As a Facility Manager, I would like to add a custom ID to every agent
         When User hits report on the dashboard
         Then the website generates a PDF report containing only agent's custom ID
 
-Estimate Metrics
+**Estimate Metrics**
 - 2 - Quick: an hour or less
 - 4 - Ok: a few hours
 - 6 - Moderate: a day
 - 8 - Difficult: more than a day
 
-Estimates
+**Tickets w/ estimates**
     Ok(4): Allow Facility Manager to add custom ids to a selected agent
+        Backend:
+        Alter Agent table to contain column `custom_id`
+        Update table select query to include `custom_id`
+        Update Agent table's insert query to update custom_id
+        Update /agents/id PUT to accept customID
+        
+        Frontend:
+        Add a new textfield for Custom ID with placehold "Custom ID"
+
     Quick(2): Verify Facility Manager cannot modify custom ID once set
+
     Quick(2): Verify Facility Manager cannot modify custom ID once set
+
     Ok(4): As a Facility Manager, I would like to generate a report by only agent's custom ID
+
 
