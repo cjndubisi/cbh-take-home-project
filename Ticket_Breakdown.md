@@ -16,3 +16,23 @@ Based on the information given, break this ticket down into 2-5 individual ticke
 You will be graded on the level of detail in each ticket, the clarity of the execution plan within and between tickets, and the intelligibility of your language. You don't need to be a native English speaker, but please proof-read your work.
 
 ## Your Breakdown Here
+
+Feature: As a Facility Manager, I would like to add a custom ID to every agent
+
+    Scenario: Allow Facility Manager to add custom ids to a selected agent
+        Given Agent exist in the database
+        When Facility Manager selects a given agent to edit by tapping the edit button
+        Then the website prompts the user with a dialog box containing all the agent's fields
+        And the user is displayed (listed among) with a text field with a place holder 'Custon ID'
+
+
+    Scenario: Facility Manager cannot modify custom ID once set
+        Given Facility Manager has executed 'Allow Facilities to add custom ids to a selected agent'
+        When Facility Manager selects a given agent to edit by tapping the edit button
+        Then the website disables the textfield containing the previously filled custom ID 
+
+    Scenario: As a Facility Manager, I would like to generate a report by only agent's custom ID
+        Given User has executed the scenario " As a Facility Manager I would like to add a custom ID to every agent
+        When User hits report on the dashboard
+        Then the App generates a PDF report containing only agent's custom ID
+
