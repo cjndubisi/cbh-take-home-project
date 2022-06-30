@@ -13,6 +13,8 @@ Refactor:
 - Removed nested if statments
 - TRIVIAL_PARTITION_KEY would always be set to candidate if event when event is falsy
 - Use tenary operator for single line `if`
+- initialize candidate with an intital value 
+- Use a base case for an early exit
 
 It more readable beause I can easly track the condidtional blocks
  */
@@ -46,15 +48,13 @@ exports.deterministicPartitionKeyOld = (event) => {
 exports.deterministicPartitionKey = (event) => {
   const TRIVIAL_PARTITION_KEY = 0;
   const MAX_PARTITION_KEY_LENGTH = 256;
-  let candidate;
+  const eventWithPartitionKey = event && event.partitionKey;
 
-  if (!event) {
-    candidate = TRIVIAL_PARTITION_KEY;
-  } else if (event.partitionKey) {
-    candidate = event.partitionKey;
-  } else {
+  let candidate = (eventWithPartitionKey) ? event.partitionKey : TRIVIAL_PARTITION_KEY;
+  
+  if (event && !event.partitionKey) {
     const data = JSON.stringify(event);
-    candidate = crypto.createHash("sha3-512").update(data).digest("hex");
+    return crypto.createHash("sha3-512").update(data).digest("hex");
   }
 
   candidate = typeof candidate !== "string" ? JSON.stringify(candidate) : candidate; 
